@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style th:replace="/index::head"></style>
+<body>
+<h3>Add Customer</h3>
+<p>
+    <a th:href="@{/product}">
+        Back to products list
+    </a>
+</p>
+<div id="form">
+    <form th:action="@{/product/save}" th:object="${product}" method="POST" novalidate="novalidate">
+        <input hidden type="hidden" th:field="*{id}"/>
+        <div>
+            <label for="name">Name: </label>
+            <input id="name" type="text" th:field="*{name}"/>
+        </div>
+        <div>
+            <label for="price">Price: </label>
+            <input id="price" type="text" th:field="*{price}"/>
+        </div>
+        <div>
+            <label for="description">Description: </label>
+            <input id="description" type="text" th:field="*{description}"/>
+        </div>
+        <div>
+            <label for="producer">Producer: </label>
+            <input id="producer" type="text" th:field="*{producer}"/>
+        </div>
+        <input type="submit" value="Save"/>
+    </form>
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

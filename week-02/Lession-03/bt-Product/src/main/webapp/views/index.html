@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spring Customer</title>
+
+    <style th:fragment="head" type="text/css">
+        h3{background-color: blue; color: white; padding: 10px 0 10px 20px;}
+        footer{margin: 10px 0;}
+
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        input[type=text],input[type=email]{
+            width: 100%;
+            padding: 12px 0px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 300px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        #form .form {
+            width: 500px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .notify span{font-size: 15px; color: blue;}
+    </style>
+</head>
+<body>
+<h3>Products</h3>
+
+<div class="form">
+    <form th:action="@{/product/create}" method="get" novalidate="novalidate">
+        <input type="submit" value="Add new product"/>
+    </form>
+</div>
+
+<div id="form">
+    <form th:action="@{/product/search}" method="POST" novalidate="novalidate">
+        <div>
+            <label for="search">Search: </label>
+            <input id="search" name="search" type="text"/>
+        </div>
+        <input type="submit" value="Search"/>
+    </form>
+</div>
+
+<table id = "customers">
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Producer</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>View</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product, productStat : ${products}">
+        <td th:text="${productStat.count}"></td>
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getPrice()}"></td>
+        <td th:text="${product.getDescription()}"></td>
+        <td th:text="${product.getProducer()}"></td>
+        <td><a th:href="@{/product/__${product.id}__/edit}">edit</a></td>
+        <td><a th:href="@{/product/__${product.id}__/delete}" onclick="return confirm('Máy có muốn xoá khum...???')">delete</a></td>
+        <td><a th:href="@{/product/__${product.id}__/view}">view</a></td>
+    </tr>
+    </tbody>
+</table>
+<footer th:fragment="footer">
+    &copy; 2021 CodeGym
+</footer>
+</body>
+</html>

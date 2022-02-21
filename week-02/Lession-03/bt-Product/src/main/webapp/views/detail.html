@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spring Customer</title>
+
+    <style th:replace="index::head">
+    </style>
+</head>
+<body>
+<h3>Product</h3>
+<p>
+    <a th:href="@{/product}">
+       Back to home
+    </a>
+</p>
+
+<table id = "customers">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Producer</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${product}">
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getPrice()}"></td>
+        <td th:text="${product.getDescription()}"></td>
+        <td th:text="${product.getProducer()}"></td>
+        <td><a th:href="@{/product/__${product.id}__/edit}">edit</a></td>
+        <td><a th:href="@{/product/__${product.id}__/delete}">delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="index::footer">
+</footer>
+</body>
+</html>
