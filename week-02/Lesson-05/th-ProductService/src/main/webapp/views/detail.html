@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <style th:replace="layout::css"></style>
+</head>
+<body>
+<h1>Products</h1>
+<p>
+    <a th:href="@{/product}">Back To List Products</a>
+</p>
+
+    <table id="products">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:object="${product}">
+            <td th:text="*{getName()}"></td>
+            <td th:text="*{getPrice()}"></td>
+            <td><img th:src="${view} + *{getImage()}" alt="Lỗi" src=""/></td>
+            <td><a th:href="@{/product/edit/__${product.id}__}">Edit</a></td>
+            <td><a th:href="@{/product/delete/__${product.id}__}" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+<footer th:replace="layout::footer"></footer>
+</body>
+</html>

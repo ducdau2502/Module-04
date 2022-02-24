@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <style th:replace="layout::css"></style>
+</head>
+<body>
+<h1>Products</h1>
+<div th:if="${products.isEmpty() != false}">
+
+</div>
+<p>
+    <a th:href="@{/product/create}">Create New Product</a>
+</p>
+
+<form id="form" th:action="@{/product/find}" method="get">
+    <label>Search:
+        <input type="text" name="search" th:value="${name}">
+    </label>
+    <br>
+    <button type="submit">Search</button>
+</form>
+
+<div th:if="${products.isEmpty() == false}">
+    <table id="products">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product,productState : ${products}">
+            <td th:text="${product.getName()}"></td>
+            <td th:text="${product.getPrice()}"></td>
+            <td><img th:src="${view} + ${product.getImage()}" alt="Lỗi" src=""/></td>
+            <td><a th:href="@{/product/edit/__${product.id}__}">Edit</a></td>
+            <td><a th:href="@{/product/delete/__${product.id}__}" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Delete</a></td>
+            <td><a th:href="@{/product/view/__${product.id}__}">View</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="layout::footer"></footer>
+</body>
+</html>
