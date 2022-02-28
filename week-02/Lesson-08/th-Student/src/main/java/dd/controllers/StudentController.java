@@ -26,10 +26,10 @@ public class StudentController {
     IClassRoomService classRoomService;
 
     @GetMapping("")
-    public ModelAndView showAll(@RequestParam("search") Optional<String> search, @PageableDefault(value = 3)Pageable pageable) {
+    public ModelAndView showAll(@RequestParam("search") Optional<String> search, @PageableDefault(value = 3) Pageable pageable) {
         ModelAndView modelAndView = new ModelAndView("index");
         Page<Student> students;
-        if (search.isPresent()){
+        if (search.isPresent()) {
             students = studentService.findAllByNameContainingOrPhoneNumberContaining(pageable, search.get());
             modelAndView.addObject("search", search.get());
         } else {
@@ -60,14 +60,15 @@ public class StudentController {
     public ModelAndView save(@Valid @ModelAttribute Student student, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("create");
         if (bindingResult.hasErrors()) {
-            studentService.save(student);
-            modelAndView.addObject("message", "Create Successful");
-            modelAndView.addObject("color", "Blue");
-        } else {
             modelAndView.addObject("message", "Create failed");
             modelAndView.addObject("color", "Red");
+            modelAndView.addObject("student", student);
+            return modelAndView;
         }
+        modelAndView.addObject("message", "Create Successful");
+        modelAndView.addObject("color", "Blue");
         modelAndView.addObject("student", new Student());
+        studentService.save(student);
         modelAndView.addObject("classes", classRoomService.findClassAll());
         return modelAndView;
     }
