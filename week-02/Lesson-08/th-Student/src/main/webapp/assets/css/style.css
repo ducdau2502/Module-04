@@ -1,0 +1,20 @@
+.title {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+}
+
+.add-file {
+    margin: 20px;
+    align-self: center;
+}
+
+.search-file {
+    margin: 0;
+    align-self: center;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}

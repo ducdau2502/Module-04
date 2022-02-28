@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Create Cities</title>
+  <style th:replace="layout::css"></style>
+</head>
+<body>
+<form id="form" th:action="@{/cities/save}" th:object="${city}" method="post" enctype="multipart/form-data">
+  <label>Name:
+    <input type="text" th:field="*{name}">
+  </label>
+  <label>Image:
+    <input type="file" th:field="*{imageFile}">
+  </label>
+  <label> Country:
+    <select th:field="*{country}">
+      <option th:each="c : ${countries}" th:value="${c.id}" th:text="${c.name}">
+      </option>
+    </select>
+  </label>
+  <br>
+  <button type="submit">Submit</button>
+</form>
+<p><a th:href="@{/cities}">Back to list</a></p>
+<footer th:replace="layout::footer"></footer>
+</body>
+</html>

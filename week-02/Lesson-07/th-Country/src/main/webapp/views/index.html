@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>All Cities</title>
+    <style th:replace="layout::css"></style>
+</head>
+<body>
+<h1>Cities</h1>
+<p>
+    <a th:href="@{/cities/create}">Create New City</a>
+</p>
+<form id="form" th:action="@{/cities}" method="get">
+    <label>Search:
+        <input name="search" type="text" th:if="${search.isPresent() == false}"/>
+        <input name="search" type="text" th:if="${search.isPresent()}" th:value="${search.get()}"/>
+    </label>
+    <button type="submit">Search</button>
+</form>
+<div>
+    <table id="products">
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>City</th>
+            <th>Image</th>
+            <th>Country</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c, cStat : ${cities}">
+            <td th:text="${cStat.count}"></td>
+            <td th:text="${c.getName()}"></td>
+            <td><img th:src="@{${view} + ${c.getImage()}}" src="" alt="Lỗi"></td>
+            <td th:text="${c.getCountry().getName()}"></td>
+            <td><a th:href="@{/cities/edit/__${c.getId()}__}">Edit</a></td>
+            <td>
+                <a th:href="@{/cities/delete/__${c.getId()}__}"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Delete</a>
+            </td>
+            <td><a th:href="@{/cities/view/__${c.getId()}__}">View</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <a th:href="@{'/cities'(page=${cities.number - 1})}" th:if="${cities.hasPrevious()}">Previous</a>
+        <span th:text="${cities.number + 1}"></span>/<span th:text="${cities.totalPages}"></span>
+        <a th:href="@{'/cities'(page=${cities.number + 1})}" th:if="${cities.hasNext()}">Next</a>
+    </div>
+</div>
+<footer th:replace="layout::footer"></footer>
+</body>
+</html>
