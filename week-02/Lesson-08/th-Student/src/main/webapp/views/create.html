@@ -62,14 +62,18 @@
                     <tr>
                         <th>Address:</th>
                         <td>
-                            <input type="text" th:field="*{address}">
+                            <label>
+                                <input type="text" th:field="*{address}">
+                            </label>
                         </td>
                     </tr>
                     <tr>
                         <th>Average Point:</th>
                         <td>
                             <p th:if="${#fields.hasErrors('avgPoint')}" th:errors="*{avgPoint}">Name Error</p>
-                            <input type="text" th:field="*{avgPoint}">
+                            <label>
+                                <input type="text" th:field="*{avgPoint}">
+                            </label>
                         </td>
                     </tr>
                     <tr>

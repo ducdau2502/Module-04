@@ -47,15 +47,6 @@ public class StudentController {
         return modelAndView;
     }
 
-    @GetMapping("/edit-student/{id}")
-    public ModelAndView edit(@PathVariable("id") long id) {
-        ModelAndView modelAndView = new ModelAndView("edit");
-        Optional<Student> student = studentService.findStudentById(id);
-        modelAndView.addObject("student", student);
-        modelAndView.addObject("classes", classRoomService.findClassAll());
-        return modelAndView;
-    }
-
     @PostMapping("/save-student")
     public ModelAndView save(@Valid @ModelAttribute Student student, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("create");
@@ -63,27 +54,36 @@ public class StudentController {
             modelAndView.addObject("message", "Create failed");
             modelAndView.addObject("color", "Red");
             modelAndView.addObject("student", student);
-            return modelAndView;
+        } else {
+            modelAndView.addObject("message", "Create Successful");
+            modelAndView.addObject("color", "Blue");
+            modelAndView.addObject("student", new Student());
+            studentService.save(student);
         }
-        modelAndView.addObject("message", "Create Successful");
-        modelAndView.addObject("color", "Blue");
-        modelAndView.addObject("student", new Student());
-        studentService.save(student);
+        modelAndView.addObject("classes", classRoomService.findClassAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/edit-student/{id}")
+    public ModelAndView edit(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("edit");
+        Optional<Student> student = studentService.findStudentById(id);
+        modelAndView.addObject("student", student.get());
         modelAndView.addObject("classes", classRoomService.findClassAll());
         return modelAndView;
     }
 
     @PostMapping("/update-student/{id}")
-    public ModelAndView update(@ModelAttribute Student student, @PathVariable("id") long id) {
-        ModelAndView modelAndView = new ModelAndView("create");
-        if (student != null) {
-            student.setId(id);
+    public ModelAndView update(@Valid @ModelAttribute Student student, @PathVariable("id") long id, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("edit");
+        student.setId(id);
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("message", "Update failed");
+            modelAndView.addObject("color", "Red");
+        } else {
             studentService.save(student);
             modelAndView.addObject("message", "Update Successful");
             modelAndView.addObject("color", "Blue");
-        } else {
-            modelAndView.addObject("message", "Update failed");
-            modelAndView.addObject("color", "Red");
         }
         modelAndView.addObject("student", student);
         modelAndView.addObject("classes", classRoomService.findClassAll());
