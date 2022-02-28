@@ -36,7 +36,7 @@
                     <tr>
                         <td>
                             <label>
-                                <input class="form-control mr-2" type="text" size="20" placeholder="Search By Name" name="search">
+                                <input class="form-control mr-2" type="text" size="20" placeholder="Search By Name" name="search" th:value="${search}">
                             </label>
                         </td>
                         <td>
@@ -112,9 +112,9 @@
                 </tbody>
             </table>
             <div>
-                <a th:if="${students.hasPrevious()}" th:href="@{'/students'(page=${students.number - 1})}">Previous</a>
+                <a th:if="${students.hasPrevious()}" th:href="@{'/students'(page=${students.number - 1},search=${search})}">Previous</a>
                 <span th:text="${students.number + 1}"></span>/<span th:text="${students.totalPages}"></span>
-                <a th:if="${students.hasNext()}" th:href="@{'/students'(page=${students.number + 1})}">Next</a>
+                <a th:if="${students.hasNext()}" th:href="@{'/students'(page=${students.number + 1},search=${search})}">Next</a>
             </div>
         </div>
     </div>

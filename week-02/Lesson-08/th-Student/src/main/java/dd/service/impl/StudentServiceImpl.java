@@ -22,8 +22,8 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Page<Student> findAllByNameContainingOrPhoneNumberContaining(Pageable pageable, String search, String search1) {
-        return studentRepository.findAllByNameContainingOrPhoneNumberContaining(pageable, search, search1);
+    public Page<Student> findAllByNameContainingOrPhoneNumberContaining(Pageable pageable, String search) {
+        return studentRepository.findAllByNameContainingOrPhoneNumberContaining(pageable, search, search);
     }
 
     @Override

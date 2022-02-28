@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IStudentService {
     Page<Student> findAll(Pageable pageable);
 
-    Page<Student> findAllByNameContainingOrPhoneNumberContaining(Pageable pageable, String search, String search1);
+    Page<Student> findAllByNameContainingOrPhoneNumberContaining(Pageable pageable, String search);
 
     Optional<Student> findStudentById(long id);
 

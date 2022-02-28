@@ -1,6 +1,10 @@
 package dd.model;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "students")
@@ -9,14 +13,18 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z]{5,32}", message = "Lỗi tên")
     private String name;
 
+    @Range(min = 6, max = 50)
     private double age;
 
+    @Pattern(regexp = "[0-9]{10}", message = "Lỗi sđt")
     private String phoneNumber;
 
     private String address;
-
+    @Range(min = 0, max = 10)
     private double avgPoint;
 
     @ManyToOne

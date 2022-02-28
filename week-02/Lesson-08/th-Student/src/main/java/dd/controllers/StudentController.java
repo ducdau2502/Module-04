@@ -8,9 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -28,7 +30,8 @@ public class StudentController {
         ModelAndView modelAndView = new ModelAndView("index");
         Page<Student> students;
         if (search.isPresent()){
-            students = studentService.findAllByNameContainingOrPhoneNumberContaining(pageable, search.get(), search.get());
+            students = studentService.findAllByNameContainingOrPhoneNumberContaining(pageable, search.get());
+            modelAndView.addObject("search", search.get());
         } else {
             students = studentService.findAll(pageable);
         }
@@ -54,9 +57,9 @@ public class StudentController {
     }
 
     @PostMapping("/save-student")
-    public ModelAndView save(@ModelAttribute Student student) {
+    public ModelAndView save(@Valid @ModelAttribute Student student, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("create");
-        if (student != null) {
+        if (bindingResult.hasErrors()) {
             studentService.save(student);
             modelAndView.addObject("message", "Create Successful");
             modelAndView.addObject("color", "Blue");
