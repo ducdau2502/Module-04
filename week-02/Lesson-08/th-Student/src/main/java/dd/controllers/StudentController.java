@@ -74,7 +74,7 @@ public class StudentController {
     }
 
     @PostMapping("/update-student/{id}")
-    public ModelAndView update(@Valid @ModelAttribute Student student, @PathVariable("id") long id, BindingResult bindingResult) {
+    public ModelAndView update(@Valid @ModelAttribute Student student, BindingResult bindingResult, @PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("edit");
         student.setId(id);
         if (bindingResult.hasErrors()) {
