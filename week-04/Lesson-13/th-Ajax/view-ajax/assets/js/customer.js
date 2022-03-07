@@ -2,7 +2,6 @@
 function displayFormCreate() {
     document.getElementById("form").reset()
     document.getElementById("form").hidden = false;
-    document.getElementById("formCity").hidden = true;
 
     showCity()
     document.getElementById("form-button").onclick = function () {
@@ -64,6 +63,10 @@ function displayCustomer(customer) {
                     <td><button class="btn btn-warning" onclick="editCustomer(${customer.id})">Edit</button></td>
                 </tr>`
 
+}
+
+function displayCustomerHTML() {
+    window.open("index.html");
 }
 
 function showCustomer() {

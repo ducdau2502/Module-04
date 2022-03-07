@@ -6,6 +6,10 @@ function displayCities(city) {
             </tr>`;
 }
 
+function displayCityHTML() {
+    window.open("city.html");
+}
+
 function displayAllCity() {
     $.ajax({
         type: "get",
@@ -21,7 +25,7 @@ function displayAllCity() {
                 }
             }
 
-            document.getElementById("customerList").innerHTML = content;
+            document.getElementById("customerCity").innerHTML = content;
             document.getElementById("formCity").hidden = true;
         }
     });
@@ -60,7 +64,6 @@ function deleteCity(id) {
 function displayFormCreateCity() {
     document.getElementById("formCity").reset()
     document.getElementById("formCity").hidden = false;
-    document.getElementById("form").hidden = true;
     document.getElementById("form-button-city").onclick = function () {
         addNewCity();
     }
@@ -102,3 +105,5 @@ function updateCity() {
     });
     event.preventDefault();
 }
+
+displayAllCity()
