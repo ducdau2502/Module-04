@@ -75,7 +75,7 @@ function editCity(id) {
             document.getElementById("formCity").hidden = false;
             indexCity = data.id;
             $('#nameCity').val(data.name);
-            document.getElementById("form-button").onclick = function () {
+            document.getElementById("form-button-city").onclick = function () {
                 updateCity();
             };
         }
@@ -95,7 +95,7 @@ function updateCity() {
         },
         type: "PUT",
         data: JSON.stringify(newCity),
-        url: `http://localhost:8080/customers/${indexCity}`,
+        url: `http://localhost:8080/cities/${indexCity}`,
         success: function () {
             displayAllCity()
         }
