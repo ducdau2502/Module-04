@@ -4,6 +4,37 @@ function displayCategory(category) {
     return `<option value="${category.id}">${category.name}</option>`;
 }
 
+function displayCategoryHTML() {
+    window.open("category.html", "_self");
+}
+
+function searchProduct() {
+    let search = document.getElementById("search").value;
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/products?search=${search}`,
+        success: function (data) {
+            let content = '<tr>\n' +
+                '<th>Name</th>\n' +
+                '<th>Price</th>\n' +
+                '<th>Description</th>\n' +
+                '<th>Category</th>\n' +
+                '<th colspan="2">Action</th>\n' +
+                '</tr>';
+            if (data !== undefined) {
+                for (let i = 0; i < data.length; i++) {
+                    content += displayProduct(data[i]);
+                }
+            }
+
+            document.getElementById("products").innerHTML = content;
+            document.getElementById("form").hidden = true;
+            document.getElementById("searchForm").reset();
+        }
+    });
+    event.preventDefault();
+}
+
 function showCategories() {
     $.ajax({
         type: "get",
@@ -25,7 +56,8 @@ function deleteProduct(id) {
         type: "delete",
         url: `http://localhost:8080/products/${id}`,
         success: function () {
-            showProduct();
+            listProducts();
+            pageProducts();
         }
     });
 }
@@ -53,7 +85,8 @@ function updateProduct() {
         },
         data: JSON.stringify(newProduct),
         success: function () {
-            showProduct();
+            listProducts();
+            pageProducts();
         }
     })
 }
@@ -76,39 +109,57 @@ function editProduct(id) {
     });
 }
 
-function displayProduct(product) {
-    return `<tr>
-                    <td>${product.name}</td>
-                    <td>${product.price}</td>
-                    <td>${product.description}</td>
-                    <td>${product.category.name}</td>
-                    <td><button class="btn btn-danger" onclick="deleteProduct(${product.id})">Delete</button></td>
-                    <td><button class="btn btn-warning" onclick="editProduct(${product.id})">Edit</button></td>
-                </tr>`
+listProducts();
+pageProducts()
+
+function listProducts() {
+    $.ajax({
+        url: 'http://localhost:8080/products',
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            size = data.length;
+            pageProducts(size);
+        }
+    })
+
 }
 
-function showProduct() {
-    $.ajax({
-        type: "get",
-        url: `http://localhost:8080/products`,
-        success: function (data) {
-            let content = '<tr>\n' +
-                '<th>Name</th>\n' +
-                '<th>Price</th>\n' +
-                '<th>Description</th>\n' +
-                '<th>Category</th>\n' +
-                '<th colspan="2">Action</th>\n' +
-                '</tr>';
-            if (data !== undefined) {
-                for (let i = 0; i < data.length; i++) {
-                    content += displayProduct(data[i]);
-                }
+function pageProducts(size) {
+    $(function () {
+        let container = $('#demo');
+        container.pagination({
+            dataSource: 'http://localhost:8080/products',
+            locator: 'items',
+            totalNumber: size,
+            pageSize: 2,
+            callback: function (response, pagination) {
+                let pageStart = (pagination.pageNumber - 1) * pagination.pageSize;
+                let pageEnd = pageStart + pagination.pageSize;
+                let pageItems = response.slice(pageStart, pageEnd);
+                let content = '<tr>\n' +
+                    '<th>Name</th>\n' +
+                    '<th>Price</th>\n' +
+                    '<th>Description</th>\n' +
+                    '<th>Category</th>\n' +
+                    '<th colspan="2">Action</th>\n' +
+                    '</tr>';
+                $.each(pageItems, function (index, item) {
+                    content +=
+                        `<tr>
+                    <td>${item.name}</td>
+                    <td>${item.price}</td>
+                    <td>${item.description}</td>
+                    <td>${item.category.name}</td>
+                    <td><button class="btn btn-danger" onclick="deleteProduct(${item.id})">Delete</button></td>
+                    <td><button class="btn btn-warning" onclick="editProduct(${item.id})">Edit</button></td>
+                </tr>`
+                })
+                container.prev().html(content);
             }
-
-            document.getElementById("products").innerHTML = content;
-            document.getElementById("form").hidden = true;
-        }
-    });
+        })
+        document.getElementById("form").hidden = true;
+    })
 }
 
 function addNewProduct() {
@@ -134,7 +185,8 @@ function addNewProduct() {
         },
         data: JSON.stringify(newProduct),
         success: function () {
-            showProduct();
+            listProducts();
+            pageProducts();
         }
     })
 }
@@ -148,5 +200,4 @@ function displayFormCreate() {
     }
 }
 
-showProduct();
 showCategories();

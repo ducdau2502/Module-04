@@ -20,8 +20,13 @@
     <!--    ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+<!--    phân trang-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css" rel="stylesheet"/>
+
     <script src="../assets/js/index.js"></script>
-    <script src="../assets/js/category.js"></script>
+<!--    <script src="../assets/js/category.js"></script>-->
 
 </head>
 <body>
@@ -31,7 +36,19 @@
     <button class="btn btn-primary" onclick="displayFormCreate()">Create New Product</button>
     <button class="btn btn-primary" onclick="displayCategoryHTML()">Display Category</button>
 
+    <form id="searchForm">
+        <div class="row">
+            <div class="col">
+                <label><input type="text" id="search" class="form-control" placeholder="Enter a word"></label>
+            </div>
+            <div class="col">
+                <button type="button"  class="btn btn-info" onclick="searchProduct()">Search</button>
+            </div>
+        </div>
+    </form>
+
     <table id="products" class="table table-striped"></table>
+    <table id="demo" class="table table-striped"></table>
 
     <form hidden id="form">
         <div class="mb-3 mt-3">
