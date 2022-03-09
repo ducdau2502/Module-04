@@ -30,6 +30,17 @@
     <button class="btn btn-primary" onclick="displayFormCreate()">Create New Customer</button>
     <button class="btn btn-primary" onclick="displayCityHTML()">Display City</button>
 
+    <form id="searchForm">
+        <div class="row">
+            <div class="col">
+                <label><input type="text" id="search" class="form-control" placeholder="Enter a word"></label>
+            </div>
+            <div class="col">
+                <button type="button"  class="btn btn-info" onclick="searchCustomer()">Search</button>
+            </div>
+        </div>
+    </form>
+
     <table id="customerList" class="table table-striped"></table>
 
     <form hidden id="formCity">

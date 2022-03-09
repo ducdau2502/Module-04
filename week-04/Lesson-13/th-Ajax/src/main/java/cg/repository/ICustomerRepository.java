@@ -10,4 +10,6 @@ import javax.transaction.Transactional;
 @Transactional
 public interface ICustomerRepository extends PagingAndSortingRepository<Customer, Long> {
     void deleteAllByCity_Id(long id);
+
+    Iterable<Customer> findAllByNameContaining(String name);
 }

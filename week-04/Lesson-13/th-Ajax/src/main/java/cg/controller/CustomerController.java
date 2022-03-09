@@ -1,5 +1,6 @@
 package cg.controller;
 
+import cg.model.City;
 import cg.model.Customer;
 import cg.service.ICityService;
 import cg.service.ICustomerService;
@@ -22,8 +23,14 @@ public class CustomerController {
     ICustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<Iterable<Customer>> showAll() {
-        List<Customer> customers = (List<Customer>) customerService.findAllCustomer();
+    public ResponseEntity<Iterable<Customer>> showAll(@RequestParam("search") Optional<String> search) {
+        List<Customer> customers;
+        if (search.isPresent()) {
+            customers = (List<Customer>) customerService.findAllByNameContaining(search.get());
+        } else {
+            customers = (List<Customer>) customerService.findAllCustomer();
+        }
+
         if (customers.isEmpty()) {
             return new ResponseEntity<>(customers, HttpStatus.NO_CONTENT);
         } else {

@@ -7,7 +7,7 @@ function displayCities(city) {
 }
 
 function displayCityHTML() {
-    window.open("city.html");
+    window.open("city.html", "_self");
 }
 
 function displayAllCity() {
@@ -101,6 +101,29 @@ function updateCity() {
         url: `http://localhost:8080/cities/${indexCity}`,
         success: function () {
             displayAllCity()
+        }
+    });
+    event.preventDefault();
+}
+
+function searchCity() {
+    let search = document.getElementById("search").value;
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/cities?search=${search}`,
+        success: function (data) {
+            let content = '<tr>\n' +
+                '<th>Name</th>\n' +
+                '<th colspan="2">Action</th>\n' +
+                '</tr>';
+            if (data !== undefined) {
+                for (let i = 0; i < data.length; i++) {
+                    content += displayCities(data[i]);
+                }
+            }
+
+            document.getElementById("customerCity").innerHTML = content;
+            document.getElementById("formCity").hidden = true;
         }
     });
     event.preventDefault();

@@ -22,8 +22,14 @@ public class CityController {
     ICustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<Iterable<City>> showAll() {
-        List<City> cities = (List<City>) cityService.findAllCity();
+    public ResponseEntity<Iterable<City>> showAll(@RequestParam("search") Optional<String> search) {
+        List<City> cities;
+        if (search.isPresent()) {
+            cities = (List<City>) cityService.findAllByNameContaining(search.get());
+        } else {
+            cities = (List<City>) cityService.findAllCity();
+        }
+
         if (cities.isEmpty()) {
             return new ResponseEntity<>(cities ,HttpStatus.NO_CONTENT);
         } else {

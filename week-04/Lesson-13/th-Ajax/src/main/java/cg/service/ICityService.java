@@ -12,4 +12,6 @@ public interface ICityService {
     City saveCity(City city);
 
     void deleteCityById(long id);
+
+    Iterable<City> findAllByNameContaining(String name);
 }

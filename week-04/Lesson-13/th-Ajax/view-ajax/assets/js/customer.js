@@ -66,7 +66,7 @@ function displayCustomer(customer) {
 }
 
 function displayCustomerHTML() {
-    window.open("index.html");
+    window.open("index.html","_self");
 }
 
 function showCustomer() {
@@ -143,6 +143,31 @@ function deleteCustomer(id) {
             showCustomer();
         }
     });
+}
+
+function searchCustomer() {
+    let search = document.getElementById("search").value;
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/customers?search=${search}`,
+        success: function (data) {
+            let content = '<tr>\n' +
+                '<th>Name</th>\n' +
+                '<th>Email</th>\n' +
+                '<th>City</th>\n' +
+                '<th colspan="2">Action</th>\n' +
+                '</tr>';
+            if (data !== undefined) {
+                for (let i = 0; i < data.length; i++) {
+                    content += displayCustomer(data[i]);
+                }
+            }
+
+            document.getElementById("customerList").innerHTML = content;
+            document.getElementById("searchForm").reset();
+        }
+    });
+    event.preventDefault();
 }
 
 showCustomer();

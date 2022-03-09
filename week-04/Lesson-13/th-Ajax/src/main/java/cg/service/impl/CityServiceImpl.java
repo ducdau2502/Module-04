@@ -33,4 +33,9 @@ public class CityServiceImpl implements ICityService {
     public void deleteCityById(long id) {
         cityRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<City> findAllByNameContaining(String name) {
+        return cityRepository.findAllByNameContaining(name);
+    }
 }

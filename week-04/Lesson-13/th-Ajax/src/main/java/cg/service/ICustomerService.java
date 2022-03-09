@@ -15,4 +15,5 @@ public interface ICustomerService {
 
     void deleteAllByCity_Id(long id);
 
+    Iterable<Customer> findAllByNameContaining(String name);
 }

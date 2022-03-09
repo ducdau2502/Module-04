@@ -39,4 +39,8 @@ public class CustomerServiceImpl implements ICustomerService {
         customerRepository.deleteAllByCity_Id(id);
     }
 
+    @Override
+    public Iterable<Customer> findAllByNameContaining(String name) {
+        return customerRepository.findAllByNameContaining(name);
+    }
 }
